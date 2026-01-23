@@ -5,12 +5,16 @@ import eus.fpsanturtzilh.pag.service.GroupService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/group")
 public class GroupController {
 
+	@Autowired
 	private final GroupService service;
 
 	public GroupController(GroupService service) {
@@ -23,11 +27,12 @@ public class GroupController {
 	}
 	
 	@PostMapping
-	public GroupFroga addGroupFroga(@RequestBody GroupFroga groupFroga) {
-		return service.saveGroupFroga(groupFroga);
-	}
-
+	public ResponseEntity<GroupFroga> saveGroupFroga(@RequestBody GroupFroga groupFroga) {
+		GroupFroga saved = service.saveGroupFroga(groupFroga);
+		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }	
 	@DeleteMapping("/{id}")
+	@ResponseStatus (HttpStatus.NO_CONTENT)
 	public void deleteGroupFroga(@PathVariable Integer id) {
 		service.deleteGroupFroga(id);
 	}
@@ -38,7 +43,12 @@ public class GroupController {
     }
 	
 	@GetMapping("/{id}")
-	public GroupFroga getGroupFroga(@PathVariable Integer id) {
-		return service.findById(id);
+	public ResponseEntity<GroupFroga> findGroupFroga(@PathVariable Integer id){
+		GroupFroga ap = service.findById(id);
+		if (ap!=null) {
+			return ResponseEntity.ok(ap);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }

@@ -1,6 +1,6 @@
 package eus.fpsanturtzilh.pag.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,8 +10,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @Table(name="users")
-public class User {
+public class User implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -30,12 +32,10 @@ public class User {
 	
 	@OneToOne (cascade = CascadeType.ALL)
 	@JoinColumn (name = "client_id", unique = true)
-	@JsonIgnore
 	private Client clients;
 	
 	@OneToOne (cascade = CascadeType.ALL)
 	@JoinColumn (name = "student_id", unique = true)
-	@JsonIgnore
 	private Student students;
 		
 }

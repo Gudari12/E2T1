@@ -1,9 +1,10 @@
 package eus.fpsanturtzilh.pag.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,15 +14,17 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @Table(name="schedules")
-public class Schedule {
+public class Schedule implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@ManyToOne
 	@JoinColumn(name="group_id", nullable = false)
-	@JsonIgnore
+	@JsonBackReference(value = "group-sched")
 	private GroupFroga groups;
 	
 	@Column

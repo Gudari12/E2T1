@@ -5,12 +5,16 @@ import eus.fpsanturtzilh.pag.service.ClientService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/client")
 public class ClientController {
 
+	@Autowired
 	private final ClientService service;
 
 	public ClientController(ClientService service) {
@@ -23,11 +27,13 @@ public class ClientController {
 	}
 	
 	@PostMapping
-	public Client addClient(@RequestBody Client client) {
-		return service.saveClient(client);
-	}
+	public ResponseEntity<Client> saveClient(@RequestBody Client client) {
+		Client saved = service.saveClient(client);
+		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }	
 
 	@DeleteMapping("/{id}")
+	@ResponseStatus (HttpStatus.NO_CONTENT)
 	public void deleteClient(@PathVariable Integer id) {
 		service.deleteClient(id);
 	}
@@ -38,7 +44,12 @@ public class ClientController {
     }
 	
 	@GetMapping("/{id}")
-	public Client getClient(@PathVariable Integer id) {
-		return service.findById(id);
+	public ResponseEntity<Client> findClient(@PathVariable Integer id){
+		Client ap = service.findById(id);
+		if (ap!=null) {
+			return ResponseEntity.ok(ap);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }

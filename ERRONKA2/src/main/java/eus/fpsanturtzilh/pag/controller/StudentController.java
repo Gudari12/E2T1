@@ -5,12 +5,16 @@ import eus.fpsanturtzilh.pag.service.StudentService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/student")
 public class StudentController {
 
+	@Autowired
 	private final StudentService service;
 
 	public StudentController(StudentService service) {
@@ -23,11 +27,13 @@ public class StudentController {
 	}
 	
 	@PostMapping
-	public Student addStudent(@RequestBody Student student) {
-		return service.saveStudent(student);
-	}
+	public ResponseEntity<Student> saveStudent(@RequestBody Student student) {
+		Student saved = service.saveStudent(student);
+		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }	
 
 	@DeleteMapping("/{id}")
+	@ResponseStatus (HttpStatus.NO_CONTENT)
 	public void deleteStudent(@PathVariable Integer id) {
 		service.deleteStudent(id);
 	}
@@ -38,7 +44,12 @@ public class StudentController {
     }
 	
 	@GetMapping("/{id}")
-	public Student getStudent(@PathVariable Integer id) {
-		return service.findById(id);
+	public ResponseEntity<Student> findStudent(@PathVariable Integer id){
+		Student ap = service.findById(id);
+		if (ap!=null) {
+			return ResponseEntity.ok(ap);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }

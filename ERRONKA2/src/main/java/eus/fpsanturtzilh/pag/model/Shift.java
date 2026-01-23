@@ -1,6 +1,8 @@
 package eus.fpsanturtzilh.pag.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,8 +12,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @Table(name="shifts")
-public class Shift {
+public class Shift implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -21,7 +25,7 @@ public class Shift {
 	
 	@ManyToOne
 	@JoinColumn(name="student_id", nullable = false)
-	@JsonIgnore
+	@JsonBackReference(value = "shift-student")
 	private Student students;
 
 	@Embedded

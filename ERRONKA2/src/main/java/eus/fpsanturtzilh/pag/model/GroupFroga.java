@@ -1,8 +1,9 @@
 package eus.fpsanturtzilh.pag.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,8 +13,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @Table(name="groupsFroga")
-public class GroupFroga {
+public class GroupFroga implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -25,11 +28,11 @@ public class GroupFroga {
 	private TimestampInfo info;
 	
 	@OneToMany (mappedBy="groups", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
+	@JsonManagedReference(value = "group-sched")
 	private List<Schedule> schedules;
 	
 	@OneToMany (mappedBy="groups", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
+	@JsonManagedReference(value = "group-student")
 	private List<Student> students;
 	
 }

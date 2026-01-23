@@ -5,12 +5,16 @@ import eus.fpsanturtzilh.pag.service.AppointmentServiceService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/appointment_service")
 public class AppointmentServiceController {
 
+	@Autowired
 	private final AppointmentServiceService service;
 
 	public AppointmentServiceController(AppointmentServiceService service) {
@@ -23,11 +27,13 @@ public class AppointmentServiceController {
 	}
 	
 	@PostMapping
-	public AppointmentService addAppointmentService(@RequestBody AppointmentService appointmentService) {
-		return service.saveAppointmentService(appointmentService);
-	}
+	public ResponseEntity<AppointmentService> saveAppointmentService(@RequestBody AppointmentService appointmentService) {
+		AppointmentService saved = service.saveAppointmentService(appointmentService);
+		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }	
 
 	@DeleteMapping("/{id}")
+	@ResponseStatus (HttpStatus.NO_CONTENT)
 	public void deleteAppointmentService(@PathVariable Integer id) {
 		service.deleteAppointmentService(id);
 	}
@@ -37,8 +43,13 @@ public class AppointmentServiceController {
         return service.updateAppointmentService(id, appointmentService);
     }
 	
-	@GetMapping("/{id}")
-	public AppointmentService getAppointmentService(@PathVariable Integer id) {
-		return service.findById(id);
+    @GetMapping("/{id}")
+	public ResponseEntity<AppointmentService> findAppointmentService(@PathVariable Integer id){
+    	AppointmentService ap = service.findById(id);
+		if (ap!=null) {
+			return ResponseEntity.ok(ap);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }

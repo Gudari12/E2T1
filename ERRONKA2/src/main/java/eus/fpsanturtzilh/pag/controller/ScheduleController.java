@@ -5,12 +5,16 @@ import eus.fpsanturtzilh.pag.service.ScheduleService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/schedule")
 public class ScheduleController {
 
+	@Autowired
 	private final ScheduleService service;
 
 	public ScheduleController(ScheduleService service) {
@@ -23,11 +27,13 @@ public class ScheduleController {
 	}
 	
 	@PostMapping
-	public Schedule addSchedule(@RequestBody Schedule schedule) {
-		return service.saveSchedule(schedule);
-	}
+	public ResponseEntity<Schedule> saveSchedule(@RequestBody Schedule schedule) {
+		Schedule saved = service.saveSchedule(schedule);
+		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }	
 
 	@DeleteMapping("/{id}")
+	@ResponseStatus (HttpStatus.NO_CONTENT)
 	public void deleteSchedule(@PathVariable Integer id) {
 		service.deleteSchedule(id);
 	}
@@ -38,7 +44,12 @@ public class ScheduleController {
     }
 	
 	@GetMapping("/{id}")
-	public Schedule getSchedule(@PathVariable Integer id) {
-		return service.findById(id);
+	public ResponseEntity<Schedule> findSchedule(@PathVariable Integer id){
+		Schedule ap = service.findById(id);
+		if (ap!=null) {
+			return ResponseEntity.ok(ap);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }

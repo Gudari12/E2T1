@@ -5,12 +5,16 @@ import eus.fpsanturtzilh.pag.service.ShiftService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/shift")
 public class ShiftController {
 
+	@Autowired
 	private final ShiftService service;
 
 	public ShiftController(ShiftService service) {
@@ -23,11 +27,13 @@ public class ShiftController {
 	}
 	
 	@PostMapping
-	public Shift addShift(@RequestBody Shift shift) {
-		return service.saveShift(shift);
-	}
+	public ResponseEntity<Shift> saveShift(@RequestBody Shift shift) {
+		Shift saved = service.saveShift(shift);
+		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
 
 	@DeleteMapping("/{id}")
+	@ResponseStatus (HttpStatus.NO_CONTENT)
 	public void deleteShift(@PathVariable Integer id) {
 		service.deleteShift(id);
 	}
@@ -38,7 +44,12 @@ public class ShiftController {
     }
 	
 	@GetMapping("/{id}")
-	public Shift getShift(@PathVariable Integer id) {
-		return service.findById(id);
+	public ResponseEntity<Shift> findShift(@PathVariable Integer id){
+		Shift ap = service.findById(id);
+		if (ap!=null) {
+			return ResponseEntity.ok(ap);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }
