@@ -11,7 +11,7 @@ namespace ChatZerbitzaria
         //
 
         // Zerbitzaria entzuten egongo den portu-zenbakia eta IP helbidea.
-        int port = 13000;
+        int port = 20000;
         IPAddress localAddr = IPAddress.Parse("192.168.208.62");
 
         // Zerbitzariaren socket-a.
@@ -25,6 +25,8 @@ namespace ChatZerbitzaria
         // Jokoan erantzun behar den galdera eta bere erantzuna.
         string erab = null;
         string pasahitza = null;
+        string[] erabiltzaileak = new string[] { "eneko", "mikel", "ainhoa", "juan", "jose" };
+        string[] pasahitzak = new string[] { "123", "456", "789", "juan", "jose" };
 
         /**
          * Eraikitzailea. 
@@ -88,7 +90,7 @@ namespace ChatZerbitzaria
                 using (NetworkStream stream = socket.GetStream())
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    // JOKOABETETA mezua bidali bezeroari.
+                    // TXATBETETA mezua bidali bezeroari.
                     await writer.WriteLineAsync("TXATBETETA");
                     await writer.FlushAsync();
                     Console.WriteLine("Bezero bati konexioa ukatuta");
@@ -103,8 +105,7 @@ namespace ChatZerbitzaria
         }
 
         /**
-        * Bezerotik jasotako informazioa irakurri <EOF> jaso arte.
-        * Ondoren, bezeroari jasotako mezua letra larriekin bueltatu.
+        * Bezeroaren logina haren kredentialekin egiaztatu.
         */
         async Task Login(TcpClient socket, int bezeroZenbakia)
         {
@@ -116,57 +117,42 @@ namespace ChatZerbitzaria
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     writer.AutoFlush = true;
-                    // Lehenengo gauza bezeroaren partaidetza konfirmatzen dugu "ITXARON-x-y" mezuarekin, non x bezero kopuru Maximoa den eta zenbat bezero falta diren jokoa hasteko.
-                    await writer.WriteLineAsync("ITXARON-" + bezeroZenbakia + "-" + (this.bezeroKopuruMax - bezeroZenbakia));
 
-                    // Itxaron partaide danak.
-                    while (this.bezeroKopurua < this.bezeroKopuruMax)
+                    // Login orria bidali bezeroari.
+                    await writer.WriteLineAsync("LOGIN");
+                    // Hartu logineko erabiltzailea eta pasahitza.
+                    this.erab = await reader.ReadLineAsync();
+                    this.pasahitza = await reader.ReadLineAsync();
+
+                    bool baimena = false;
+
+                    for (int i = 0; i < this.erabiltzaileak.Length; i++)
                     {
-                        await Task.Delay(100);
-                    }
-
-                    // Jokoa hasi dela abisatu bezeroei.
-                    await writer.WriteLineAsync("JOKOAHASI");
-                    // Erakutsi galdera.
-                    await writer.WriteLineAsync(this.galdera);
-
-                    string erantzuna = string.Empty;
-                    // Irabazlea ez dagoen bitartean, galdetu.
-                    while (this.irabazleaId == 0)
-                    {
-                        erantzuna = await reader.ReadLineAsync();
-                        // Irabazle bat egon bada erantzunaren zain geunden bitartean.
-                        if (this.irabazleaId != 0)
+                        if (this.erabiltzaileak[i] == this.erab && this.pasahitzak[i] == this.pasahitza)
                         {
-                            // Irten while bukletik.
+                            baimena = true;
                             break;
                         }
-                        else if (erantzuna == this.emaitza)
-                        {
-                            // Ibazle bat egon da.
-                            Console.WriteLine(bezeroZenbakia + ". partaideak IRABAZI du.");
-                            // Erantzun zuzena dela bidali bezeroari.
-                            this.irabazleaId = bezeroZenbakia;
-                            await writer.WriteLineAsync("ZUZENA");
-                            break;
-                        }
-                        else
-                        {
-                            // Erantzun okerra.
-                            Console.WriteLine(bezeroZenbakia + ". partaidea erantzun OKERRA.");
-                            // Erantzun okerra dela bidali bezeroari.
-                            await writer.WriteLineAsync("OKERRA");
-                        }
                     }
 
-                    // Bukletik atera bagara irabazle bat egon delako da.
-                    // Ez bada hari honetako bezeroa irabazlea, bidali galdu duela.
-                    if (this.irabazleaId != bezeroZenbakia)
+                    if (baimena)
                     {
-                        Console.WriteLine(bezeroZenbakia + ". partaideak GALDU du.");
-                        // Bidali bezeroari galdu duelaren abisua.
-                        await writer.WriteLineAsync("GALDUDUZU-" + this.irabazleaId);
+                        // Login zuzena.
+                        Console.WriteLine(bezeroZenbakia + ". partaidea loginean sartu da: " + this.erab);
+                        await writer.WriteLineAsync("LOGINZUZENA");
+                        await Txat(socket, bezeroZenbakia);
                     }
+                    else
+                    {
+                        // Login okerra.
+                        Console.WriteLine(bezeroZenbakia + ". partaidea login okerra egin du: " + this.erab);
+                        await writer.WriteLineAsync("LOGINOKERRA");
+                        // Itxi bezeroaren konexioa.
+                        socket.Close();
+                        return;
+                    }
+
+                    
                 }
                 // Itxi bezeroaren konexioa.
                 socket.Close();
@@ -177,6 +163,40 @@ namespace ChatZerbitzaria
             }
             Console.WriteLine("Bezero-" + bezeroZenbakia + " konexioa itxita.");
         }
+
+        /**
+         * Txat.
+         */
+        async Task Txat(TcpClient socket, int bezeroZenbakia)
+        {
+            try
+            {
+                using (NetworkStream stream = socket.GetStream())
+                using (StreamWriter writer = new StreamWriter(stream))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    writer.AutoFlush = true;
+                    string mezua = null;
+                    // Mezuak trukatu ahal izateko bukle infinitu bat.
+                    while (true)
+                    {
+                        // Bezeroak mezua bidaltzen du.
+                        mezua = await reader.ReadLineAsync();
+                        // Bezeroak "IRTEN" mezua bidali badu, saioa amaitu.
+                        if (mezua == "IRTEN")
+                        {
+                            Console.WriteLine(bezeroZenbakia + ". partaidetzat saioa amaitu du.");
+                            break;
+                        }
+                        // Bestela, mezua pantailaratu.
+                        Console.WriteLine("Bezero-" + bezeroZenbakia + ": " + mezua);
+                        // Mezuari erantzun bat bidali.
+                        await writer.WriteLineAsync(this.erab + ": " + mezua);
+                    }
+                }
+            }
+        }
+
 
         /**
          * Irekitako konexio objektuak itxi.

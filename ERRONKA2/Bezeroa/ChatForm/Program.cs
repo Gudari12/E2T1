@@ -1,3 +1,6 @@
+using System.Net.Http;
+using System.Net.Sockets;
+
 namespace ChatForm
 {
     internal static class Program
