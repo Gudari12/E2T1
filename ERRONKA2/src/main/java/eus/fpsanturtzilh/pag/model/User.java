@@ -2,6 +2,8 @@ package eus.fpsanturtzilh.pag.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,12 +32,14 @@ public class User implements Serializable{
 	@Embedded
 	private TimestampInfo info;
 	
-	@OneToOne (cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn (name = "client_id", unique = true)
+	@JsonBackReference(value = "client-user")
 	private Client clients;
 	
-	@OneToOne (cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn (name = "student_id", unique = true)
+	@JsonBackReference(value = "student-user")
 	private Student students;
 		
 }

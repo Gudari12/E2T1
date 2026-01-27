@@ -46,6 +46,7 @@ public class Client implements Serializable{
 	private TimestampInfo info;
 	
 	@OneToOne(mappedBy = "clients", cascade = CascadeType.ALL)
+	@JsonManagedReference(value = "client-user")
 	private User users;
 
 	@OneToMany (mappedBy="clients", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -37,6 +37,7 @@ public class Student implements Serializable{
 	private TimestampInfo info;
 	
 	@OneToOne(mappedBy = "students", cascade = CascadeType.ALL)
+	@JsonManagedReference(value = "student-user")
 	private User users;
 
 	@OneToMany (mappedBy="students", cascade = CascadeType.ALL, orphanRemoval = true)
