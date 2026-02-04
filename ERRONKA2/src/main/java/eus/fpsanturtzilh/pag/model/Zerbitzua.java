@@ -33,9 +33,9 @@ public class Zerbitzua implements Serializable{
 	
 	@Column
 	private int duration;
-	
+
 	@Embedded
-	private TimestampInfo info;
+	private TimestampInfo timestamps = new TimestampInfo();
 	
 	@OneToMany (mappedBy="services", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference(value = "app_serv-zerb")

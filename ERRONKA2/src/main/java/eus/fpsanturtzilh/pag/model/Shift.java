@@ -29,5 +29,5 @@ public class Shift implements Serializable{
 	private Student students;
 
 	@Embedded
-	private TimestampInfo info;
+	private TimestampInfo timestamps = new TimestampInfo();
 }

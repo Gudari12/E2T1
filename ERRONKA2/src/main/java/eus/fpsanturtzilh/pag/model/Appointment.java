@@ -86,7 +86,7 @@ public class Appointment implements Serializable{
      * Erregistroaren sortze, eguneratze edo ezabatze informazioa
      */
 	@Embedded
-	private TimestampInfo info;
+	private TimestampInfo timestamps = new TimestampInfo();
 
     /**
      * Appointment batek hainbat zerbitzu izan ditzake

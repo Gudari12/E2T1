@@ -41,9 +41,9 @@ public class Client implements Serializable{
 
 	@Column
 	private Boolean home_client;
-	
+
 	@Embedded
-	private TimestampInfo info;
+	private TimestampInfo timestamps = new TimestampInfo();
 	
 	@OneToOne(mappedBy = "clients", cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "client-user")

@@ -41,7 +41,7 @@ public class Schedule implements Serializable{
 	
 	@Column
 	private LocalTime end_time;
-	
+
 	@Embedded
-	private TimestampInfo info;
+	private TimestampInfo timestamps = new TimestampInfo();
 }

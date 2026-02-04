@@ -23,9 +23,9 @@ public class GroupFroga implements Serializable{
 	
 	@Column
 	private String name;
-	
+
 	@Embedded
-	private TimestampInfo info;
+	private TimestampInfo timestamps = new TimestampInfo();
 	
 	@OneToMany (mappedBy="groups", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference(value = "group-sched")

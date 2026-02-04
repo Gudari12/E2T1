@@ -2,19 +2,27 @@ package eus.fpsanturtzilh.pag.model;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
+@Getter
+@Setter
+@NoArgsConstructor
 public class TimestampInfo {
 
-	@Column
-	private LocalDateTime created_at;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime created_at;
 
-	@Column
-	private LocalDateTime updated_at;
+    @UpdateTimestamp
+    private LocalDateTime updated_at;
 
-	@Column
-	private LocalDateTime deleted_at;
-	
+    private LocalDateTime deleted_at;
 }

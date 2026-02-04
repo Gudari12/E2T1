@@ -32,9 +32,9 @@ public class Student implements Serializable{
 	@JoinColumn(name="group_id", nullable = false)
 	@JsonBackReference(value = "group-student")
 	private GroupFroga groups;
-	
+
 	@Embedded
-	private TimestampInfo info;
+	private TimestampInfo timestamps = new TimestampInfo();
 	
 	@OneToOne(mappedBy = "students", cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "student-user")

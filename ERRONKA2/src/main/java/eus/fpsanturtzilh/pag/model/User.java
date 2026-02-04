@@ -28,9 +28,9 @@ public class User implements Serializable{
 	
 	@Column
 	private String rol;
-
+	
 	@Embedded
-	private TimestampInfo info;
+	private TimestampInfo timestamps = new TimestampInfo();
 	
 	@OneToOne
 	@JoinColumn (name = "client_id", unique = true)
