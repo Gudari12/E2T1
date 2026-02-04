@@ -25,7 +25,7 @@ public class Shift implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="student_id", nullable = false)
-	@JsonBackReference(value = "shift-student")
+	//@JsonBackReference(value = "shift-student")
 	private Student students;
 
 	@Embedded
