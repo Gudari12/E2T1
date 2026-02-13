@@ -68,7 +68,12 @@ public class AppointmentService {
 
         existingAppointment.setSeat(updateAppointment.getSeat());
         existingAppointment.setDate(updateAppointment.getDate());
-
+        existingAppointment.setStart_time(updateAppointment.getStart_time());
+        existingAppointment.setEnd_time(updateAppointment.getEnd_time());
+        existingAppointment.setComment(updateAppointment.getComment());
+        existingAppointment.setName(updateAppointment.getName());
+        
+        
         return repository.save(existingAppointment);
     }
     
