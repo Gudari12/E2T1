@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/group")
+@CrossOrigin(origins="*")
 public class GroupController {
 
 	@Autowired

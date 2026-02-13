@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/shift")
+@CrossOrigin(origins="*")
 public class ShiftController {
 
 	@Autowired
