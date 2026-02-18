@@ -76,7 +76,7 @@
             textBox1.ForeColor = Color.FromArgb(80, 80, 80);
             textBox1.Location = new Point(30, 115);
             textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Introduce tu nombre de usuario";
+            textBox1.PlaceholderText = " Sartu zure erabiltzailea";
             textBox1.Size = new Size(340, 25);
             textBox1.TabIndex = 3;
             // 
@@ -88,7 +88,7 @@
             textBox2.ForeColor = Color.FromArgb(80, 80, 80);
             textBox2.Location = new Point(30, 180);
             textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "Introduce tu contraseña";
+            textBox2.PlaceholderText = " Sartu zure pasahitza";
             textBox2.Size = new Size(340, 25);
             textBox2.TabIndex = 4;
             textBox2.UseSystemPasswordChar = true;
@@ -107,6 +107,7 @@
             button1.TabIndex = 5;
             button1.Text = "Hasi saioa";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // panel1
             // 
@@ -132,7 +133,7 @@
             Font = new Font("Segoe UI", 9F);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Login - Chat";
+            Text = "Login - Txat";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);

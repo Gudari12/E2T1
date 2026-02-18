@@ -6,57 +6,43 @@ namespace ChatZerbitzaria
 {
     class ChatServer
     {
-        //
-        // Klasearen atributuak.
-        //
-
-        // Zerbitzaria entzuten egongo den portu-zenbakia eta IP helbidea.
+        // Configuración
         int port = 20000;
         IPAddress localAddr = IPAddress.Parse("192.168.208.62");
-
-        // Zerbitzariaren socket-a.
-        TcpListener server;
-
-        // Onartuko diren bezero kopuru maximoa.
         int bezeroKopuruMax = 15;
-        // Konektatuta dauden bezeroen kontagailua.
+
+        TcpListener server;
         int bezeroKopurua = 0;
 
-        // Jokoan erantzun behar den galdera eta bere erantzuna.
-        string erab = null;
-        string pasahitza = null;
+        // Lista de clientes conectados para broadcast
+        private ConcurrentBag<StreamWriter> bezeroak = new ConcurrentBag<StreamWriter>();
+
+        // Credenciales válidas
         string[] erabiltzaileak = new string[] { "eneko", "mikel", "ainhoa", "juan", "jose" };
         string[] pasahitzak = new string[] { "123", "456", "789", "juan", "jose" };
 
-        /**
-         * Eraikitzailea. 
-         */
         public ChatServer()
         {
-            // TcpListener objektua sortzen dugu.
             this.server = new TcpListener(this.localAddr, this.port);
         }
 
-        /**
-         * Hasierazi zerbitzaria.
-         */
         private async Task BezeroSarrera()
         {
             try
             {
-
-                // Sistema Eragileari esaten diogu protu-zenbaki horretara heltzen diren paketeak gure aplikaziora bidali behar dituela.
                 this.server.Start();
-                Console.WriteLine("Txat zerbitzaria hasita. Bezeroak itxaroten...");
-                // Bezeroen identifikazioa kontrolatzeko kontagailua.
+                Console.WriteLine("=== CHAT ZERBITZARIA ===");
+                Console.WriteLine($"Entzuten {this.localAddr}:{this.port}");
+                Console.WriteLine($"Gehienez {this.bezeroKopuruMax} bezero");
+                Console.WriteLine("========================\n");
+
                 int bezeroZenbakia = 0;
-                // Bukle infinitu bat hainbat bezeroen eskaerak erantzun ahal izateko.
+
                 while (true)
                 {
-                    // Bezero baten konexio eskaera itxaroten gelditzen da.
                     TcpClient socketcliente = await this.server.AcceptTcpClientAsync();
-                    // Bezero kopuru maximora ailegatu bagara, informatu bezeroa eta deskonektatu.
-                    if (this.bezeroKopurua == this.bezeroKopuruMax)
+
+                    if (this.bezeroKopurua >= this.bezeroKopuruMax)
                     {
                         await PartaidetzaUkatu(socketcliente);
                     }
@@ -64,171 +50,193 @@ namespace ChatZerbitzaria
                     {
                         this.bezeroKopurua++;
                         bezeroZenbakia++;
-                        Console.WriteLine("Bezero berri bat konektatu da: Bezero-" + bezeroZenbakia);
+                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Bezero-{bezeroZenbakia} konektatu da (Guztira: {this.bezeroKopurua})");
 
-                        // Kudeatu bezeroaren eskaera metodo asinkrono baten, horrela hurrengo bezero baten konexioa kudeatu ahalko da.
-                        //      Bueltatzen den Task objektua "_" aldagai baten gordetzen da kasu hauetarako konbenzio bat delako.
-                        //      Hau da, ataza asinkrono bat exekutatzerakoan, baina bere emaitza ez dugunean kontrolatu nahi (fire-and-forget).
-                        _ = this.Login(socketcliente, bezeroZenbakia);
+                        _ = this.KudeatuBezeroa(socketcliente, bezeroZenbakia);
                     }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("Socket edo buffer-a sortzen errorea: {0}", e);
+                Console.WriteLine($"Errorea: {e.Message}");
             }
         }
 
-        /**
-         * Bezero baten partaidetza ukatu.
-         */
         async Task PartaidetzaUkatu(TcpClient socket)
         {
             try
             {
-                // Erabili "using" konexioak automatikoki bukatzeko (close deitu gabe).
                 using (NetworkStream stream = socket.GetStream())
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    // TXATBETETA mezua bidali bezeroari.
+                    writer.AutoFlush = true;
                     await writer.WriteLineAsync("TXATBETETA");
-                    await writer.FlushAsync();
-                    Console.WriteLine("Bezero bati konexioa ukatuta");
+                    Console.WriteLine("Bezero bati konexioa ukatuta (txata beteta)");
                 }
-                // Itxi bezeroari konexioa.
                 socket.Close();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Komunikazio errorea: {0}", e);
+                Console.WriteLine($"Errorea ukatzean: {e.Message}");
             }
         }
 
-        /**
-        * Bezeroaren logina haren kredentialekin egiaztatu.
-        */
-        async Task Login(TcpClient socket, int bezeroZenbakia)
+        async Task KudeatuBezeroa(TcpClient socket, int bezeroZenbakia)
         {
+            string erabiltzaileIzena = "";
+            StreamWriter writer = null;
+
             try
             {
-                // Erabili "using" konexioak automatikoki bukatzeko (close deitu gabe).
+                using (socket)
                 using (NetworkStream stream = socket.GetStream())
-                using (StreamWriter writer = new StreamWriter(stream))
+                using (writer = new StreamWriter(stream))
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     writer.AutoFlush = true;
 
-                    // Login orria bidali bezeroari.
-                    await writer.WriteLineAsync("LOGIN");
-                    // Hartu logineko erabiltzailea eta pasahitza.
-                    this.erab = await reader.ReadLineAsync();
-                    this.pasahitza = await reader.ReadLineAsync();
+                    // FASE 1: LOGIN CON 3 INTENTOS
+                    bool loginOndo = false;
+                    int saiakerak = 0;
+                    int maxSaiakerak = 3;
 
-                    bool baimena = false;
+                    await writer.WriteLineAsync("OK"); // Indicar que estamos listos para login
 
-                    for (int i = 0; i < this.erabiltzaileak.Length; i++)
+                    while (!loginOndo && saiakerak < maxSaiakerak)
                     {
-                        if (this.erabiltzaileak[i] == this.erab && this.pasahitzak[i] == this.pasahitza)
+                        string erab = await reader.ReadLineAsync();
+                        string pass = await reader.ReadLineAsync();
+
+                        // Verificar credenciales
+                        for (int i = 0; i < this.erabiltzaileak.Length; i++)
                         {
-                            baimena = true;
-                            break;
+                            if (this.erabiltzaileak[i] == erab && this.pasahitzak[i] == pass)
+                            {
+                                loginOndo = true;
+                                erabiltzaileIzena = erab;
+                                break;
+                            }
+                        }
+
+                        if (loginOndo)
+                        {
+                            await writer.WriteLineAsync("LOGINZUZENA");
+                            Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] {erabiltzaileIzena} login zuzena (Bezero-{bezeroZenbakia})");
+                        }
+                        else
+                        {
+                            saiakerak++;
+                            if (saiakerak < maxSaiakerak)
+                            {
+                                await writer.WriteLineAsync($"LOGINOKERRA-{maxSaiakerak - saiakerak}");
+                            }
+                            else
+                            {
+                                await writer.WriteLineAsync("LOGINOKERRA-0");
+                                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Bezero-{bezeroZenbakia} login okerra x3. Deskonektatzen.");
+                                this.bezeroKopurua--;
+                                return;
+                            }
                         }
                     }
 
-                    if (baimena)
-                    {
-                        // Login zuzena.
-                        Console.WriteLine(bezeroZenbakia + ". partaidea loginean sartu da: " + this.erab);
-                        await writer.WriteLineAsync("LOGINZUZENA");
-                        await Txat(socket, bezeroZenbakia);
-                    }
-                    else
-                    {
-                        // Login okerra.
-                        Console.WriteLine(bezeroZenbakia + ". partaidea login okerra egin du: " + this.erab);
-                        await writer.WriteLineAsync("LOGINOKERRA");
-                        // Itxi bezeroaren konexioa.
-                        socket.Close();
-                        return;
-                    }
+                    if (!loginOndo) return;
 
-                    
-                }
-                // Itxi bezeroaren konexioa.
-                socket.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Komunikazio errorea: {0}", e);
-            }
-            Console.WriteLine("Bezero-" + bezeroZenbakia + " konexioa itxita.");
-        }
+                    // Añadir a lista de clientes para broadcast
+                    bezeroak.Add(writer);
 
-        /**
-         * Txat.
-         */
-        async Task Txat(TcpClient socket, int bezeroZenbakia)
-        {
-            try
-            {
-                using (NetworkStream stream = socket.GetStream())
-                using (StreamWriter writer = new StreamWriter(stream))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    writer.AutoFlush = true;
-                    string mezua = null;
-                    // Mezuak trukatu ahal izateko bukle infinitu bat.
-                    while (true)
+                    // Notificar a todos que se ha conectado alguien nuevo
+                    await BidaliGuztiei($"SISTEMA$#/{erabiltzaileIzena} txat-era batu da!");
+
+                    // FASE 2: CHAT
+                    string mezua;
+                    while ((mezua = await reader.ReadLineAsync()) != null)
                     {
-                        // Bezeroak mezua bidaltzen du.
-                        mezua = await reader.ReadLineAsync();
-                        // Bezeroak "IRTEN" mezua bidali badu, saioa amaitu.
                         if (mezua == "IRTEN")
                         {
-                            Console.WriteLine(bezeroZenbakia + ". partaidetzat saioa amaitu du.");
+                            Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] {erabiltzaileIzena} irten da (Bezero-{bezeroZenbakia})");
+                            await BidaliGuztiei($"SISTEMA$#/{erabiltzaileIzena} irten da.");
                             break;
                         }
-                        // Bestela, mezua pantailaratu.
-                        Console.WriteLine("Bezero-" + bezeroZenbakia + ": " + mezua);
-                        // Mezuari erantzun bat bidali.
-                        await writer.WriteLineAsync(this.erab + ": " + mezua);
+
+                        // Verificar formato: usuario$#/mensaje
+                        if (mezua.Contains("$#/"))
+                        {
+                            string[] zatia = mezua.Split(new[] { "$#/" }, StringSplitOptions.None);
+                            if (zatia.Length >= 2)
+                            {
+                                string bidaltzailea = zatia[0];
+                                string testua = string.Join("$#/", zatia.Skip(1));
+
+                                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] {bidaltzailea}: {testua}");
+
+                                // Reenviar a todos (broadcast)
+                                await BidaliGuztiei(mezua);
+                            }
+                        }
                     }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Errorea Bezero-{bezeroZenbakia}: {e.Message}");
+            }
+            finally
+            {
+                // Limpiar cliente de la lista
+                if (writer != null)
+                {
+                    var lista = bezeroak.ToList();
+                    lista.Remove(writer);
+                    bezeroak = new ConcurrentBag<StreamWriter>(lista);
+                }
+
+                this.bezeroKopurua--;
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Bezero-{bezeroZenbakia} deskonektatu da (Guztira: {this.bezeroKopurua})");
+            }
+        }
+
+        async Task BidaliGuztiei(string mezua)
+        {
+            var lista = bezeroak.ToList();
+            foreach (var w in lista)
+            {
+                try
+                {
+                    await w.WriteLineAsync(mezua);
+                }
+                catch
+                {
+                    // Cliente desconectado, se limpiará luego
                 }
             }
         }
 
-
-        /**
-         * Irekitako konexio objektuak itxi.
-         */
         private void Itxi()
         {
             try
             {
                 this.server.Stop();
-                Console.WriteLine("Zerbitzaria bukatuta.");
+                Console.WriteLine("\nZerbitzaria geldituta.");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Zerbitzaria ezin izan da gelditU: {0}", e);
+                Console.WriteLine($"Errorea gelditzean: {e.Message}");
             }
         }
 
-
-        /**
-         * Main metodoa, programa hemen hasten da.
-         */
         public static async Task<int> Main(string[] args)
         {
-            // Guk definitutako klasearen objektua sortu.
-            ChatServer zerbitzariAplikazioa = new ChatServer();
+            ChatServer zerbitzaria = new ChatServer();
 
-            await zerbitzariAplikazioa.BezeroSarrera();
-            zerbitzariAplikazioa.Itxi();
+            // Capturar Ctrl+C para cerrar limpiamente
+            Console.CancelKeyPress += (sender, e) => {
+                e.Cancel = true;
+                zerbitzaria.Itxi();
+                Environment.Exit(0);
+            };
 
-
-            Console.WriteLine("\nSakatu <ENTER> bukatzeko...");
-            Console.Read();
+            await zerbitzaria.BezeroSarrera();
             return 0;
         }
     }
