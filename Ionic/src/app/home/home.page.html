@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Ongi Etorri</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <img src="assets/icon/fp.png">
+
+  <div id="container">
+
+    <ion-list>
+
+      <ion-item>
+        <ion-input
+          label="Erabiltzailea"
+          [(ngModel)]="erabiltzailea">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Password"
+          type="password"
+          [(ngModel)]="password">
+        </ion-input>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-button expand="block" (click)="login()">
+      Login
+    </ion-button>
+
+  </div>
+</ion-content>

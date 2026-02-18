@@ -1,0 +1,49 @@
+.background-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: #121212;
+}
+
+.login-card {
+  width: 90%;
+  max-width: 380px;
+  background: #1e1e1e;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  text-align: center;
+}
+
+.image-container {
+  margin: 0 auto 15px;
+  ion-icon {
+    font-size: 80px;
+    color: #3880ff; 
+  }
+}
+
+ion-card-title {
+  color: white;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.custom-input {
+  --background: transparent;
+  --color: white;
+  --placeholder-color: #666;
+  --border-color: #444;
+  --highlight-color-focused: #3880ff;
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+
+.login-button {
+  --background: linear-gradient(to right, #3880ff, #2dd36f);
+  --box-shadow: 0 4px 15px rgba(56, 128, 255, 0.3);
+  font-weight: bold;
+  height: 50px;
+  margin-top: 10px;
+}

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Zerbitzuak</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-list *ngIf="services && services.length > 0; else noServices">
+    <ion-item *ngFor="let service of services">
+      <ion-label>
+        <h2>{{ service.name }}</h2>
+        <p>Iraupena: {{ service.duration }} min</p>
+        <p>Prezioa: €{{ service.price }}</p>
+        <p>Base prezioa: €{{ service.home_price }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #noServices>
+    <p>No hay servicios disponibles.</p>
+  </ng-template>
+
+</ion-content>

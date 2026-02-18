@@ -1,0 +1,7 @@
+{
+  "name": "Erronka",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
