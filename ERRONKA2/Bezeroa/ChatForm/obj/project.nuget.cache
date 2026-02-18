@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XEm7x0eIpiA=",
+  "dgSpecHash": "RwVSakNjp0Y=",
   "success": true,
-  "projectFilePath": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\ChatForm.csproj",
+  "projectFilePath": "C:\\Users\\Ikasle\\GIT\\E2T1\\ERRONKA2\\Bezeroa\\ChatForm\\ChatForm.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ikasle\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512"
   ],

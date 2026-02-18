@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChatForm")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c29fbb56d9dd25e4e3a0d7f6cc8c37a98d407af5")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChatForm")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChatForm")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -55,19 +55,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ikasle\\.nuget\\packages\\": {}
+    "C:\\Users\\Ikasle\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\ChatForm.csproj",
+      "projectUniqueName": "C:\\Users\\Ikasle\\GIT\\E2T1\\ERRONKA2\\Bezeroa\\ChatForm\\ChatForm.csproj",
       "projectName": "ChatForm",
-      "projectPath": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\ChatForm.csproj",
+      "projectPath": "C:\\Users\\Ikasle\\GIT\\E2T1\\ERRONKA2\\Bezeroa\\ChatForm\\ChatForm.csproj",
       "packagesPath": "C:\\Users\\Ikasle\\.nuget\\packages\\",
-      "outputPath": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\obj\\",
+      "outputPath": "C:\\Users\\Ikasle\\GIT\\E2T1\\ERRONKA2\\Bezeroa\\ChatForm\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\Ikasle\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -123,7 +128,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.310/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
