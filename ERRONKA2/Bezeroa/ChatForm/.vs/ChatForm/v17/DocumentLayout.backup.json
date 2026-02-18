@@ -3,20 +3,32 @@
   "WorkspaceRootPath": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\form2.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:form2.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\modelos\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:modelos\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\modelos\\shift.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:modelos\\shift.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\chatform.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:chatform.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|d:\\2dam_25-26\\psp\\2ebalu\\erronka\\chatform\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{315E93EB-0E28-461D-9EBE-BD46E03D6EC2}|ChatForm.csproj|D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -34,19 +46,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Form2.cs [Dise\u00F1o]",
               "DocumentMoniker": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form2.cs",
               "RelativeDocumentMoniker": "Form2.cs",
               "ToolTip": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form2.cs [Dise\u00F1o]",
               "RelativeToolTip": "Form2.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T09:35:20.566Z",
+              "WhenOpened": "2026-02-18T08:58:51.432Z",
               "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Shift.cs",
+              "DocumentMoniker": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Modelos\\Shift.cs",
+              "RelativeDocumentMoniker": "Modelos\\Shift.cs",
+              "ToolTip": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Modelos\\Shift.cs",
+              "RelativeToolTip": "Modelos\\Shift.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-18T08:57:42.994Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Student.cs",
+              "DocumentMoniker": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Modelos\\Student.cs",
+              "RelativeDocumentMoniker": "Modelos\\Student.cs",
+              "ToolTip": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Modelos\\Student.cs",
+              "RelativeToolTip": "Modelos\\Student.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-18T08:57:07.912Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ChatForm",
+              "DocumentMoniker": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\ChatForm.csproj",
+              "RelativeDocumentMoniker": "ChatForm.csproj",
+              "ToolTip": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\ChatForm.csproj",
+              "RelativeToolTip": "ChatForm.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-18T08:56:36.987Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -56,40 +107,40 @@
               "RelativeDocumentMoniker": "Form2.Designer.cs",
               "ToolTip": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form2.Designer.cs",
               "RelativeToolTip": "Form2.Designer.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAowHIAAABDAAAAAAAAAA==",
+              "ViewState": "AgIAAAcBAAAAAAAAAAAAAAoBAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-28T11:54:30.522Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Form2.cs",
               "DocumentMoniker": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form2.cs",
               "RelativeDocumentMoniker": "Form2.cs",
               "ToolTip": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form2.cs",
               "RelativeToolTip": "Form2.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAYwEsAAABZAAAAAAAAAA==",
+              "ViewState": "AgIAACcBAAAAAAAAAAAAAE8BAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-28T11:32:50.54Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "Form1.cs",
               "DocumentMoniker": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAowBEAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwA8AAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-27T09:26:31.357Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "Form1.Designer.cs",
@@ -101,7 +152,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Form1.cs [Dise\u00F1o]",
               "DocumentMoniker": "D:\\2DAM_25-26\\PSP\\2EBALU\\Erronka\\ChatForm\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",

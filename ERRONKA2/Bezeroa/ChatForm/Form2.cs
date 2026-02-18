@@ -1,4 +1,7 @@
 ﻿using System.Net.Sockets;
+using System.Net.Http;
+using System.Text.Json;
+using ChatForm.Modelos;
 
 namespace ChatForm
 {
@@ -12,6 +15,13 @@ namespace ChatForm
         private Thread hartzailea;
         private bool running = true;
 
+        // HttpClient para las APIs (reutilizable)
+        private static readonly HttpClient httpClient = new HttpClient();
+
+        // URLs de las APIs
+        private string apiStudentUrl = "http://192.168.208.51:8080/api/student";
+        private string apiShiftUrl = "http://192.168.208.51:8080/api/shift";
+
         // Constructor modificado - recibe la conexión establecida
         public Form2(string erabiltzailea, TcpClient client, NetworkStream stream,
                      StreamReader reader, StreamWriter writer)
@@ -24,9 +34,16 @@ namespace ChatForm
             this.writer = writer;
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        private async void Form2_Load(object sender, EventArgs e)
         {
             labelUsuario.Text = $"Ongi etorri, {erabiltzailea}!";
+
+            // Configurar columnas de los DataGridView primero
+            KonfiguratuDataGridViewak();
+
+            // Cargar datos de las APIs
+            await KargatuIkasleak();
+            await KargatuTxandak();
 
             // Iniciar hilo para escuchar mensajes del servidor
             hartzailea = new Thread(new ThreadStart(EskuratuMezuak));
@@ -36,6 +53,132 @@ namespace ChatForm
             // Mensaje de bienvenida local
             GehituMezua("SISTEMA", "Txat-era ongi etorri! $#/ komandoarekin banatzen da izena eta mezua.");
         }
+
+        // ========== MÉTODOS NUEVOS PARA LA API ==========
+
+        private void KonfiguratuDataGridViewak()
+        {
+            // Configurar DataGridView de Ikasleak (Student)
+            dataGridViewIkasleak.AutoGenerateColumns = false;
+            dataGridViewIkasleak.Columns.Clear();
+
+            dataGridViewIkasleak.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "id",
+                HeaderText = "ID",
+                Width = 50
+            });
+            dataGridViewIkasleak.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "name",
+                HeaderText = "Izena",
+                Width = 150
+            });
+            dataGridViewIkasleak.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "surname",
+                HeaderText = "Abizena",
+                Width = 200
+            });
+
+            // Configurar DataGridView de Txandak (Shift)
+            dataGridViewTxandak.AutoGenerateColumns = false;
+            dataGridViewTxandak.Columns.Clear();
+
+            // Para mostrar name y surname del estudiante anidado
+            dataGridViewTxandak.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "IzenaOsoa", // Propiedad calculada
+                HeaderText = "Ikaslea",
+                Width = 250
+            });
+            dataGridViewTxandak.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "type",
+                HeaderText = "Txanda Mota",
+                Width = 150
+            });
+        }
+
+        private async Task KargatuIkasleak()
+        {
+            try
+            {
+                // Llamada a la API de estudiantes
+                HttpResponseMessage response = await httpClient.GetAsync(apiStudentUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    // Deserializar JSON
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<Student> ikasleak = JsonSerializer.Deserialize<List<Student>>(json, options);
+
+                    // Asignar al DataGridView (en hilo de UI)
+                    this.Invoke(new Action(() =>
+                    {
+                        dataGridViewIkasleak.DataSource = ikasleak;
+                    }));
+                }
+                else
+                {
+                    MessageBox.Show($"Errorea ikasleak kargatzean: {response.StatusCode}", "API Errorea");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Errorea ikasleak kargatzean: {ex.Message}", "Errorea");
+            }
+        }
+
+        private async Task KargatuTxandak()
+        {
+            try
+            {
+                // Llamada a la API de shifts
+                HttpResponseMessage response = await httpClient.GetAsync(apiShiftUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    // Deserializar JSON
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<Shift> txandak = JsonSerializer.Deserialize<List<Shift>>(json, options);
+
+                    // Crear lista con datos planos para mostrar
+                    var txandakView = txandak.Select(t => new
+                    {
+                        id = t.id,
+                        IzenaOsoa = $"{t.students?.name} {t.students?.surname}",
+                        type = t.type
+                    }).ToList();
+
+                    // Asignar al DataGridView (en hilo de UI)
+                    this.Invoke(new Action(() =>
+                    {
+                        dataGridViewTxandak.DataSource = txandakView;
+                    }));
+                }
+                else
+                {
+                    MessageBox.Show($"Errorea txandak kargatzean: {response.StatusCode}", "API Errorea");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Errorea txandak kargatzean: {ex.Message}", "Errorea");
+            }
+        }
+
+        // ========== FIN MÉTODOS NUEVOS ==========
 
         // Hilo que escucha mensajes del servidor continuamente
         private void EskuratuMezuak()
@@ -56,7 +199,8 @@ namespace ChatForm
                 // Error o cierre
                 if (running)
                 {
-                    this.Invoke(new Action(() => {
+                    this.Invoke(new Action(() =>
+                    {
                         GehituMezua("SISTEMA", "Konexioa galdu da.");
                         buttonEnviar.Enabled = false;
                     }));
@@ -183,5 +327,10 @@ namespace ChatForm
         private void textBoxMensaje_TextChanged(object sender, EventArgs e) { }
         private void dataGridViewIkasleak_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void dataGridViewTxandak_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+
+        private void tableLayoutIkasleak_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
