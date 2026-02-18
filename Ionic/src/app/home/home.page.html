@@ -1,37 +1,33 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
     <ion-title>Ongi Etorri</ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-button (click)="theme.toggleTheme()">
+        <ion-icon slot="icon-only" [name]="theme.isDarkMode ? 'sunny' : 'moon'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <img src="assets/icon/fp.png">
-
   <div id="container">
+    
+    <img src="assets/icon/fp.png">
 
-    <ion-list>
-
+    <ion-list lines="inset">
       <ion-item>
-        <ion-input
-          label="Erabiltzailea"
-          [(ngModel)]="erabiltzailea">
-        </ion-input>
+        <ion-input label="Erabiltzailea" label-placement="floating" [(ngModel)]="erabiltzailea"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input
-          label="Password"
-          type="password"
-          [(ngModel)]="password">
-        </ion-input>
+        <ion-input label="Password" type="password" label-placement="floating" [(ngModel)]="password"></ion-input>
       </ion-item>
-
     </ion-list>
 
     <ion-button expand="block" (click)="login()">
       Login
     </ion-button>
-
+    
   </div>
 </ion-content>

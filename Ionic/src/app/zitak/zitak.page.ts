@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Apizitak } from '../apizitak';
 import { Router } from '@angular/router';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonText, IonList, IonItem, IonLabel, IonNote, IonButton } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonText, IonList, IonItem, IonLabel, IonNote, IonButton, IonIcon, IonButtons, IonToggle } from "@ionic/angular/standalone";
 import { CommonModule } from '@angular/common';
+import { Theme } from '../services/theme';
+import { addIcons } from 'ionicons'; 
+import { moon, sunny, moonOutline, sunnyOutline, calendarOutline, timeOutline, listOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-zitak',
@@ -23,6 +26,9 @@ import { CommonModule } from '@angular/common';
     IonLabel,
     IonNote,
     IonButton,
+    IonIcon,
+    IonButtons,
+    IonToggle
 ],
 })
 export class ZitakPage implements OnInit {
@@ -31,11 +37,15 @@ export class ZitakPage implements OnInit {
   siguienteCita: any;
 
   constructor(private api: Apizitak, 
-    private router: Router) {}
+    private router: Router,
+  public theme: Theme) {}
 
 ngOnInit() {
   this.cargarCitas();
 }
+  toggleDarkMode() {
+    this.theme.toggleTheme();
+  }
 
 cargarCitas() {
 

@@ -1,2 +1,18 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+:root {
+  --ion-background-color: #f0f2f5;
+  --custom-card-bg: #ffffff;
+  --custom-text-main: #222222;
+}
+
+.dark {
+  --ion-background-color: #121212;
+  --ion-toolbar-background: #1f1f1f;
+  --ion-item-background: #1e1e1e;
+  
+  --custom-card-bg: #1e1e1e;
+  --custom-text-main: #f4f4f4;
+
+  ion-card {
+    --background: #1e1e1e;
+  }
+}

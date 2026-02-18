@@ -1,44 +1,67 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>Nire Hitzorduak</ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-button (click)="theme.toggleTheme()">
+        <ion-icon slot="icon-only" [name]="theme.isDarkMode ? 'sunny' : 'moon'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
 
-  <!-- Siguiente cita -->
-  <div *ngIf="siguienteCita">
+  <div *ngIf="siguienteCita" class="animate__animated animate__fadeIn">
     <h2 class="section-title">Hurrengo hitzordua</h2>
 
-    <ion-card>
+    <ion-card class="next-appointment-card">
       <ion-card-content>
         <div class="date-badge">
           {{ siguienteCita.comment }}
         </div>
 
         <ion-text color="primary">
-          <h1>{{ siguienteCita.start_time }}</h1>
+          <h1 class="time-display">{{ siguienteCita.start_time }}</h1>
         </ion-text>
 
-        <p>{{ siguienteCita.date }}</p>
+        <p class="date-display">
+          <ion-icon name="calendar-outline"></ion-icon>
+          {{ siguienteCita.date }}
+        </p>
       </ion-card-content>
     </ion-card>
   </div>
 
-  <!-- Histórico -->
-  <div *ngIf="citas?.length > 1">
+  <div *ngIf="citas && citas.length > 1" class="animate__animated animate__fadeIn">
     <h2 class="section-title">Historikoa</h2>
 
-    <ion-list>
-      <ion-item *ngFor="let cita of citas.slice(1)">
+    <ion-list lines="none">
+      <ion-item *ngFor="let cita of citas.slice(1)" class="history-item">
+        <ion-icon name="time-outline" slot="start" color="medium"></ion-icon>
+        
         <ion-label>
           <h3>{{ cita.comment }}</h3>
-
-          <p>{{cita.start_time}}  ||  {{ cita.date }}</p>
+          <p>{{ cita.date }} • {{ cita.start_time }}</p>
         </ion-label>
-        <ion-note slot="end">
+
+        <ion-note slot="end" class="status-note">
           {{ cita.status }}
         </ion-note>
       </ion-item>
     </ion-list>
   </div>
 
-  <ion-button expand="block" (click)="z()">
-      Zerbitzuak
+  <div *ngIf="!siguienteCita && (!citas || citas.length <= 1)" class="no-data-container">
+    <ion-icon name="calendar-clear-outline" color="medium"></ion-icon>
+    <p>Ez duzu hitzordurik gordeta.</p>
+  </div>
+
+  <div class="button-container">
+    <ion-button expand="block" (click)="z()" class="main-button">
+      <ion-icon name="list-outline" slot="start"></ion-icon>
+      Zerbitzuak Ikusi
     </ion-button>
+  </div>
 
 </ion-content>

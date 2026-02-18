@@ -1,49 +1,80 @@
-.background-overlay {
+:host {
+  --bg-page: #f0f2f5;
+  --bg-card: #ffffff;
+  --text-title: #222222;
+  --input-border: #e0e0e0;
+}
+
+:host-context(body.dark) {
+  --bg-page: #121212;
+  --bg-card: #1e1e1e;
+  --text-title: #ffffff;
+  --input-border: #333333;
+}
+
+ion-content {
+  --background: var(--bg-page); 
+}
+
+#container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100%;
-  background: #121212;
+  justify-content: center;
+  min-height: 100%;
+  padding: 20px;
 }
 
-.login-card {
-  width: 90%;
-  max-width: 380px;
-  background: #1e1e1e;
+img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 40px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+ion-list {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-card);
   border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  text-align: center;
-}
-
-.image-container {
-  margin: 0 auto 15px;
-  ion-icon {
-    font-size: 80px;
-    color: #3880ff; 
-  }
-}
-
-ion-card-title {
-  color: white;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.custom-input {
-  --background: transparent;
-  --color: white;
-  --placeholder-color: #666;
-  --border-color: #444;
-  --highlight-color-focused: #3880ff;
-  margin-top: 20px;
+  padding: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   margin-bottom: 25px;
 }
 
-.login-button {
-  --background: linear-gradient(to right, #3880ff, #2dd36f);
-  --box-shadow: 0 4px 15px rgba(56, 128, 255, 0.3);
+ion-item {
+  --background: var(--bg-card);
+  --border-color: var(--input-border);
+  --padding-start: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  color: var(--text-title);
+  
+  ion-input {
+    font-size: 1rem;
+    --highlight-color-focused: #3880ff;
+  }
+}
+
+ion-button {
+  width: 100%;
+  max-width: 400px;
+  height: 55px;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(56, 128, 255, 0.3);
   font-weight: bold;
-  height: 50px;
-  margin-top: 10px;
+  font-size: 1.1rem;
+  text-transform: none;
+}
+
+ion-toolbar {
+  --background: var(--bg-card);
+  --border-style: none;
+  --color: var(--text-title);
+  
+  ion-title {
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
 }
